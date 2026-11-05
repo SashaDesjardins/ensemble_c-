@@ -316,7 +316,7 @@ typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::insere(iterateu
     //2. avant est le debut -> insere
 
     // Cas 3
-    else if (val<*ava)
+    else if (*ava<val)
         return iterateur(insere(apres, val));
     //1. apres est la fin OU apres n'est pas la fin et contenu val<apres
     //2. avant n'est pas le debut
