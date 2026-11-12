@@ -36,12 +36,26 @@ ensemble<TYPEContenu>::ensemble(const ensemble<TYPEContenu>& e_ensSrc)
     : ensemble()
 {
     // a completer
+
+    cellule* iACopier = e_ensSrc.m_avant->m_suiv[0];
+    cellule* i=m_avant;
+    ensemble<TYPEContenu>::iterateur it =this->begin();
+    while (iACopier->m_suiv[0]!=nullptr) {
+        this->insere(it,*iACopier->m_contenu);
+        iACopier=iACopier->m_suiv[0];
+    }
+
 }
 
 template <typename TYPEContenu>
 ensemble<TYPEContenu>::~ensemble()
 {
-    // a completer
+
+    //on utilise nettoie et supprime les cellules de debut et fin
+    nettoie();
+    delete m_avant->m_suiv[0];
+    delete m_avant;
+
 }
 
 /////////////////////////////////////////////////////////////////
@@ -51,6 +65,11 @@ template <typename TYPEContenu>
 typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::trouve(const TYPEContenu& e_contenu) const
 {
     // a completer
+    TYPEContenu i=borneSup(e_contenu);
+    if (!(e_contenu<i)&&!(i<e_contenu)) {
+        return i;
+    }
+    return nullptr;
 }
 
 // localise la premiere position ou l'element n'est
@@ -64,11 +83,11 @@ typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::borneInf(const 
 
     cellule *c = m_avant;
     cellule *apres = m_avant->m_prec[0];
-    while (c->m_suiv[0] != apres)
-        if (*c->m_suiv[0]->m_contenu < e_contenu)
-            c = c->m_suiv[0];
-        else
-            break;
+    size_t n=m_avant->m_suiv.size();
+    for (size_t i=n;i>0;i--) {
+        while ((c->m_suiv[i-1]->m_contenu!=nullptr)&&(*c->m_suiv[i-1]->m_contenu<e_contenu))
+            c=c->m_suiv[i-1];
+    }
     return iterateur(c->m_suiv[0]);
     
 }
@@ -79,11 +98,11 @@ typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::borneSup(const 
     // a completer
     cellule *c = m_avant;
     cellule *apres = m_avant->m_prec[0];
-    while (c->m_suiv[0] != apres)
-        if (!( e_contenu<*c->m_suiv[0]->m_contenu))
-            c = c->m_suiv[0];
-        else
-            break;
+    size_t n=m_avant->m_suiv.size();
+    for (size_t i=n;i>0;i--) {
+        while ((c->m_suiv[i-1]->m_contenu!=nullptr)&&!(e_contenu<c->m_suiv[i-1]->m_contenu))
+            c=c->m_suiv[i-1];
+    }
     return iterateur(c->m_suiv[0]);
 }
 
@@ -93,8 +112,12 @@ typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::borneSup(const 
 template <typename TYPEContenu>
 size_t ensemble<TYPEContenu>::retire(const TYPEContenu& e_contenu)
 {
-    // a completer
+    iterateur i= trouve(e_contenu);
+    if (i!=nullptr) {
+        return enleve(i);
+    }
 
+    return 0;
 }
 
 // elimine de l'ensemble l'element en position it

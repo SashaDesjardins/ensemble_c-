@@ -1,0 +1,11 @@
+{
+"rules": [
+{
+"primary-output": "CMakeFiles\\ensemble.dir\\main.cpp.obj",
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

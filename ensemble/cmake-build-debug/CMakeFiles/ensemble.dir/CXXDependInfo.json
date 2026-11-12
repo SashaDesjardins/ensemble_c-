@@ -6,22 +6,22 @@
 	"config" : "Debug",
 	"cxx-modules" : {},
 	"database-info" : null,
-	"dir-cur-bld" : "C:/Users/dess7348/CLionProjects/ensemble/cmake-build-debug",
-	"dir-cur-src" : "C:/Users/dess7348/CLionProjects/ensemble",
-	"dir-top-bld" : "C:/Users/dess7348/CLionProjects/ensemble/cmake-build-debug",
-	"dir-top-src" : "C:/Users/dess7348/CLionProjects/ensemble",
+	"dir-cur-bld" : "C:/Users/David/Documents/GitHub/ensemble_c-/ensemble/cmake-build-debug",
+	"dir-cur-src" : "C:/Users/David/Documents/GitHub/ensemble_c-/ensemble",
+	"dir-top-bld" : "C:/Users/David/Documents/GitHub/ensemble_c-/ensemble/cmake-build-debug",
+	"dir-top-src" : "C:/Users/David/Documents/GitHub/ensemble_c-/ensemble",
 	"exports" : [],
 	"forward-modules-from-target-dirs" : [],
 	"include-dirs" : [],
 	"language" : "CXX",
 	"linked-target-dirs" : [],
-	"module-dir" : "C:/Users/dess7348/CLionProjects/ensemble/cmake-build-debug/CMakeFiles/ensemble.dir",
+	"module-dir" : "C:/Users/David/Documents/GitHub/ensemble_c-/ensemble/cmake-build-debug/CMakeFiles/ensemble.dir",
 	"sources" : 
 	{
 		"CMakeFiles/ensemble.dir/main.cpp.obj" : 
 		{
 			"language" : "CXX",
-			"source" : "C:/Users/dess7348/CLionProjects/ensemble/main.cpp"
+			"source" : "C:/Users/David/Documents/GitHub/ensemble_c-/ensemble/main.cpp"
 		}
 	}
 }
