@@ -11,21 +11,16 @@
 // complétez en précisant votre interprétation des conditions. Quel est le cas général ?
 //
 // Cas 1 :
-// cas ou l'iterateur ne pointe pas vers la fin et que le contenu de la cellule pointée par
-// l'itérateur est plus petit ou egal a la valeur a inserer.
-// dans ce cas la , on sait que la valeur est apres ou egal l'itérateur, mais il faut verifier son existence
+//l'iterateur n'est pas a la fin et on est apres le bon endroit pour inserer
 // Cas 2 :
-// soit l'iterateur pointe sur la fin
-// OU l'iterateur ne pointe pas vers la fin et la valeur a inserer est plus petite que celle pointé par l'itérateur
-// dans ce cas si, on verifie si avant est le debut.
-// si on est au debut, on sait qu'on doit avancer
+//soit l'ensemble est vide ou on insere la plus petite valeure de l'ensemble au debut
 // Cas 3 :
-// memes condtions que 2, sauf que avant n'est le debut.
-// dans ce cas la, si la valeur avant est plus grande que la valeur a inserer
-// si oui,
+// nous ne sommes ni au debut ni a la fin, et on essaie d'inserer la valeur au bon endroit
+// OU, insertion a la fin de la plus grande valeur de l'ensemble
 // Cas 4 :
-//
-// Le cas général est le no. 4
+// cas restant, ou on est ni au debut, ni a la fin, mais avant la valeur a inserer
+// OU a la fin, avant
+// Le cas général est le no. 3
 
 
 /////////////////////////////////////////////////////////////////
@@ -65,11 +60,11 @@ template <typename TYPEContenu>
 typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::trouve(const TYPEContenu& e_contenu) const
 {
     // a completer
-    TYPEContenu i=borneSup(e_contenu);
-    if (!(e_contenu<i)&&!(i<e_contenu)) {
+    iterateur i=borneInf(e_contenu);
+    if (!(e_contenu<*(i.m_pointeur->m_contenu))&&!(*(i.m_pointeur->m_contenu)<e_contenu)) {
         return i;
     }
-    return nullptr;
+    return m_avant->m_prec[0];
 }
 
 // localise la premiere position ou l'element n'est
@@ -100,7 +95,7 @@ typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::borneSup(const 
     cellule *apres = m_avant->m_prec[0];
     size_t n=m_avant->m_suiv.size();
     for (size_t i=n;i>0;i--) {
-        while ((c->m_suiv[i-1]->m_contenu!=nullptr)&&!(e_contenu<c->m_suiv[i-1]->m_contenu))
+        while ((c->m_suiv[i-1]->m_contenu!=nullptr)&&!(e_contenu<*(c->m_suiv[i-1]->m_contenu)))
             c=c->m_suiv[i-1];
     }
     return iterateur(c->m_suiv[0]);
@@ -114,7 +109,8 @@ size_t ensemble<TYPEContenu>::retire(const TYPEContenu& e_contenu)
 {
     iterateur i= trouve(e_contenu);
     if (i!=nullptr) {
-        return enleve(i);
+        enleve(i);
+        return 1;
     }
 
     return 0;
@@ -126,4 +122,16 @@ template <typename TYPEContenu>
 typename ensemble<TYPEContenu>::iterateur ensemble<TYPEContenu>::enleve(iterateur e_iter)
 {
     // a completer
+    size_t n = e_iter.m_pointeur->m_prec.size();
+    for (int i=0;i<n;i++) {
+        e_iter.m_pointeur->m_suiv[i]->m_prec[i]=e_iter.m_pointeur->m_prec[i];
+        e_iter.m_pointeur->m_prec[i]->m_suiv[i]=e_iter.m_pointeur->m_suiv[i];
+        e_iter.m_pointeur->m_prec[i]=nullptr;
+        e_iter.m_pointeur->m_suiv[i]=nullptr;
+    }
+    e_iter.m_pointeur->m_contenu=nullptr;
+    delete e_iter.m_pointeur->m_contenu;
+    delete e_iter.m_pointeur;
+    m_taille--;
+    return e_iter;
 }
